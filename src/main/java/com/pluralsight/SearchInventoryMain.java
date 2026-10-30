@@ -2,6 +2,8 @@ package com.pluralsight;
 
 //! Importing Scanner for receiving & storing user input
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.util.Scanner;
 
 //! Importing ArrayList for our inventory of products
@@ -20,10 +22,12 @@ public class SearchInventoryMain {
                 new Scanner(System.in);
 
         //TODO: Create an initial inventory of at least 5 products.
+        String fileName = ("inventory.csv");
+
         //*I completed this within the getInventory method
 
         //*Using getInventory method to load hardwareInventory
-        ArrayList<Product> hardwareInventory = getInventory(userInput);
+        ArrayList<Product> hardwareInventory = getInventory(fileName);
 
         //*Creating a variable to keep the menu looping
         boolean menuRunning = true;
@@ -180,29 +184,52 @@ public class SearchInventoryMain {
     }
 
     //TODO: getInventory() method - retrieving our inventory
-    public static ArrayList<Product> getInventory(Scanner userInput) {
+    public static ArrayList<Product> getInventory(String fileName) {
 
         //! Using an array list to store our hardware inventory
         ArrayList<Product> hardwareInventory = new ArrayList<Product>();
+//!
+//!       //!Creating some hardware/tools
+//!        //!Exercise says at least 5 initial products
+//        Product product1 =
+//                new Product("Hammer", "A hand tool with a heavy metal head", 25, 5.97);
+//        Product product2 =
+//                new Product("Hand Saw", "A hand tool with a toothed metal blade", 15, 8.62);
+//        Product product3 =
+//                new Product("3/8 in. Zinc-Plated Steel USS Nylon Lock Nut 100 pk", "Lock nut for securely fastening a bolt", 50, 9.99);
+//        Product product4 =
+//                new Product("20V Cordless Brushed Compact Drill", "Handheld power tool that spins bits to bore holes and drive screws.", 50, 115);
+//        Product product5 =
+//                new Product("20V Cordless Brushed Impact Driver", "Handheld power tool for driving long screws and bolts", 50, 115);
+//
+//        hardwareInventory.add(product1);
+//        hardwareInventory.add(product2);
+//        hardwareInventory.add(product3);
+//        hardwareInventory.add(product4);
+//        hardwareInventory.add(product5);
+//        return hardwareInventory;
+        //* ^ The code above was manual input into the ArrayList. Below will be code for using a fileReader to pull the
+        //* info from inventory.csv or the fileName String.
+        try {
+            BufferedReader eReader = new BufferedReader(new FileReader(fileName));
 
-        //!Creating some hardware/tools
-        //!Exercise says at least 5 initial products
-        Product product1 =
-                new Product("Hammer", "A hand tool with a heavy metal head", 25, 5.97);
-        Product product2 =
-                new Product("Hand Saw", "A hand tool with a toothed metal blade", 15, 8.62);
-        Product product3 =
-                new Product("3/8 in. Zinc-Plated Steel USS Nylon Lock Nut 100 pk", "Lock nut for securely fastening a bolt", 50, 9.99);
-        Product product4 =
-                new Product("20V Cordless Brushed Compact Drill", "Handheld power tool that spins bits to bore holes and drive screws.", 50, 115);
-        Product product5 =
-                new Product("20V Cordless Brushed Impact Driver", "Handheld power tool for driving long screws and bolts", 50, 115);
+            String csvLine;
+            eReader.readLine();
+            while ((csvLine = eReader.readLine()) != null) {
+                String[] inventoryFileArray = csvLine.split("\\|");
+                String productName = inventoryFileArray[0];
+                String productDescription = inventoryFileArray[1];
+                int productQuantity = Integer.parseInt(inventoryFileArray[2]);
+                double productPrice = Double.parseDouble(inventoryFileArray[3]);
+                Product product = new Product(productName, productDescription, productQuantity, productPrice);
+                hardwareInventory.add(product);
+            }
+            eReader.close();
 
-        hardwareInventory.add(product1);
-        hardwareInventory.add(product2);
-        hardwareInventory.add(product3);
-        hardwareInventory.add(product4);
-        hardwareInventory.add(product5);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            System.out.println("Something went wrong. Try again");
+        }
         return hardwareInventory;
     }
 }
