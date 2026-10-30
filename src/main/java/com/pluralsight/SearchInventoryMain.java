@@ -88,7 +88,7 @@ public class SearchInventoryMain {
     public static void listInventory(ArrayList<Product> hardwareInventory) {
         Collections.sort(hardwareInventory, Comparator.comparing(Product::getProductName));
         for (Product product : hardwareInventory) {
-            System.out.printf("%s - $%.2f%n", product.getProductName(), product.getProductPrice());
+            System.out.printf("%n%s - $%.2f%n", product.getProductName(), product.getProductPrice());
         }
 
     }
@@ -99,11 +99,11 @@ public class SearchInventoryMain {
         for (Product product : hardwareInventory) {
             if (product.getProductName().equalsIgnoreCase(productName)) {
                 found = true;
-                System.out.printf("%s - $%.2f%n", product.getProductName(), product.getProductPrice());
+                System.out.printf("%n%s - $%.2f%n", product.getProductName(), product.getProductPrice());
             }
         }
         if (!found) {
-            System.out.println("No product with that name found.");
+            System.out.println("\nNo product with that name found.");
         }
     }
 
@@ -113,11 +113,11 @@ public class SearchInventoryMain {
         for (Product product : hardwareInventory) {
             if (product.getProductDescription().contains(productDescription)) {
                 found = true;
-                System.out.printf("%s - $%.2f%n", product.getProductName(), product.getProductPrice());
+                System.out.printf("%n%s - $%.2f%n", product.getProductName(), product.getProductPrice());
             }
         }
         if (!found) {
-            System.out.println("No product with that description found.");
+            System.out.println("No product with that description found.\n");
         }
     }
 
@@ -127,11 +127,11 @@ public class SearchInventoryMain {
         for (Product product : hardwareInventory) {
             if (product.getProductQuantity() >= minQuantity) {
                 found = true;
-                System.out.printf("%s - $%.2f%n", product.getProductName(), product.getProductPrice());
+                System.out.printf("%n%s - $%.2f%n", product.getProductName(), product.getProductPrice());
             }
         }
         if (!found) {
-            System.out.println("No product with that quantity or greater found.");
+            System.out.println("No product with that quantity or greater found.\n");
         }
     }
 
@@ -141,11 +141,11 @@ public class SearchInventoryMain {
         for (Product product : hardwareInventory) {
             if (product.getProductPrice() <= maxProductPrice && product.getProductPrice() >= minProductPrice) {
                 found = true;
-                System.out.printf("%s - $%.2f%n", product.getProductName(), product.getProductPrice());
+                System.out.printf("%n%s - $%.2f%n", product.getProductName(), product.getProductPrice());
             }
         }
         if (!found) {
-            System.out.println("No products in that price range found.");
+            System.out.println("No products in that price range found.\n");
         }
     }
 
@@ -169,7 +169,7 @@ public class SearchInventoryMain {
             eWriter.close();
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            System.out.println("There was an error while writing to the file.");
+            System.out.println("There was an error while writing to the file.\n");
         }
 
 
