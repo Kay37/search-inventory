@@ -3,7 +3,9 @@ package com.pluralsight;
 //! Importing Scanner for receiving & storing user input
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.util.Scanner;
 
 //! Importing ArrayList for our inventory of products
@@ -70,7 +72,7 @@ public class SearchInventoryMain {
 
                     break;
                 case 6:
-                    addProduct(userInput, hardwareInventory);
+                    addProduct(userInput, hardwareInventory, fileName);
                     break;
                 case 7:
                     menuRunning = false;
@@ -148,7 +150,7 @@ public class SearchInventoryMain {
     }
 
     //TODO: addProduct method - add product to the inventory
-    public static void addProduct(Scanner userInput, ArrayList<Product> hardwareInventory) {
+    public static void addProduct(Scanner userInput, ArrayList<Product> hardwareInventory, String fileName) {
         System.out.println("Enter product name: ");
         String productName = userInput.nextLine();
         System.out.println("Enter product description: ");
@@ -161,6 +163,16 @@ public class SearchInventoryMain {
         userInput.nextLine();
 
         hardwareInventory.add(new Product(productName, productDescription, productQuantity, productPrice));
+        try {
+            BufferedWriter eWriter = new BufferedWriter(new FileWriter(fileName, true));
+            eWriter.write(productName + "|" +  productDescription + "|" + productQuantity + "|" + productPrice + "\n");
+            eWriter.close();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            System.out.println("There was an error while writing to the file.");
+        }
+
+
     }
 
     //TODO: displayMenu method - display user options for managing and searching inventory
