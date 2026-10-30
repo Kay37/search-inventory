@@ -54,9 +54,16 @@ public class SearchInventoryMain {
                     searchMinQuantity(hardwareInventory, quantitySearch);
                     break;
                 case 5:
+                    System.out.println("Enter product minimum price: ");
+                    double minProductPrice = userInput.nextDouble();
                     System.out.println("Enter product maximum price: ");
-                    double priceSearch = userInput.nextDouble();
-                    searchPrice(hardwareInventory, priceSearch);
+                    double maxProductPrice = userInput.nextDouble();
+                    if (minProductPrice > maxProductPrice) {
+                        System.out.println("Minimum price is greater than maximum price. Try again");
+                    } else {
+                        searchPrice(hardwareInventory, minProductPrice, maxProductPrice);
+                    }
+
                     break;
                 case 6:
                     addProduct(userInput, hardwareInventory);
@@ -123,16 +130,16 @@ public class SearchInventoryMain {
     }
 
     //TODO: searchPrice method - search the inventory at or under a price
-    public static void searchPrice(ArrayList<Product> hardwareInventory, double productPrice) {
+    public static void searchPrice(ArrayList<Product> hardwareInventory, double minProductPrice, double maxProductPrice) {
         boolean found = false;
         for (Product product : hardwareInventory) {
-            if (product.getProductPrice() <= productPrice) {
+            if (product.getProductPrice() <= maxProductPrice && product.getProductPrice() >= minProductPrice) {
                 found = true;
                 System.out.printf("%s - $%.2f%n", product.getProductName(), product.getProductPrice());
             }
         }
         if (!found) {
-            System.out.println("No products at or under that price found.");
+            System.out.println("No products in that price range found.");
         }
     }
 
@@ -162,7 +169,7 @@ public class SearchInventoryMain {
                     2. Search by name
                     3. Search by description
                     4. Search for items with at least X in stock
-                    5. Search for items at or under a price
+                    5. Search for items within a price range
                     6. Add to the inventory
                     7. Quit
                     Enter your command:""");
